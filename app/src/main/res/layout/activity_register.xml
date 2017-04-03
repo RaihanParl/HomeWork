@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_register"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.bidjidevelops.carilawan.RegisterActivity">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/bglogo"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login User"
+        android:textSize="26dp"
+        android:layout_below="@id/bglogo"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="User name"
+        app:met_baseColor="#2e8ece"
+        app:met_primaryColor="#fc1e94"
+        app:met_errorColor="#f22a37"
+        app:met_floatingLabel="highlight"
+        app:met_iconLeft="@drawable/ic_email"
+        android:layout_below="@id/textView"
+        android:layout_marginTop="55dp"
+        android:id="@+id/regtxtUsername"/>
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        app:met_baseColor="#2e8ece"
+        app:met_primaryColor="#fc1e94"
+        app:met_errorColor="#f22a37"
+        app:met_floatingLabel="highlight"
+        app:met_iconLeft="@drawable/ic_email"
+        android:layout_below="@id/regtxtUsername"
+        android:id="@+id/regtxtEmail"/>
+
+    <com.rengwuxian.materialedittext.MaterialAutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Asal sekolah"
+        app:met_baseColor="#2e8ece"
+        app:met_primaryColor="#fc1e94"
+        app:met_errorColor="#f22a37"
+        app:met_floatingLabel="highlight"
+        android:layout_below="@id/regtxtEmail"
+        android:layout_marginTop="1dp"
+        android:id="@+id/regtxtschool"/>
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        app:met_baseColor="#2e8ece"
+        app:met_primaryColor="#fc1e94"
+        app:met_errorColor="#f22a37"
+        app:met_floatingLabel="highlight"
+        android:layout_below="@id/regtxtschool"
+        android:layout_marginTop="1dp"
+        android:id="@+id/regtxtPassword1"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        app:met_baseColor="#2e8ece"
+        app:met_primaryColor="#fc1e94"
+        app:met_errorColor="#f22a37"
+        app:met_floatingLabel="highlight"
+        android:layout_below="@id/regtxtPassword1"
+        android:layout_marginTop="1dp"
+        android:id="@+id/regtxtPassword2"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:layout_below="@id/regtxtPassword2"
+        android:layout_marginTop="10dp"
+        android:id="@+id/regbtnRegister"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/regbtnRegister"
+        android:text="Login"
+        android:layout_alignParentRight="true"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/reglblLogin"/>
+</RelativeLayout>
+</ScrollView>
