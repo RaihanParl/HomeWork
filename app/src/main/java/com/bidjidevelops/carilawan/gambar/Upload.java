@@ -56,6 +56,8 @@ public class Upload extends AppCompatActivity implements View.OnClickListener {
     SessionManager sessionManager;
     AQuery aQuery;
     String id;
+    Pref pref;
+
 
     //Declaring views
 
@@ -81,7 +83,13 @@ public class Upload extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
+        pref =  new Pref(this);
         sessionManager = new SessionManager(getApplicationContext());
+        sessionManager.checkupload();
+        if (!pref.isFirstTimeLaunched()) {
+            launchHome();
+        }
+
         HashMap<String, String> user = sessionManager.getUserDetails();
         Semail = user.get(SessionManager.kunci_email);
         Spassword = user.get(SessionManager.kunci_password);
@@ -282,6 +290,13 @@ public class Upload extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+
+    private void launchHome() {
+        pref.setFirstLaunched(false);
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        finish();
+    }
 
 }
 

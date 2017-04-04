@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.bidjidevelops.carilawan.gambar.Pref;
 import com.bidjidevelops.carilawan.gambar.Upload;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -24,6 +25,7 @@ public class LoginActivity extends BaseApp {
     private MaterialEditText logtxtEmail, logtxtPassword;
     private TextView loglblRegister;
     private Button logbtnLogin;
+    Pref pref;
     SessionManager sessionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +89,10 @@ public class LoginActivity extends BaseApp {
                                 String result = jsonObject.getString("result");
                                 String msg = jsonObject.getString("msg");
                                 if (result.equalsIgnoreCase("true")) {
-                                    startActivity(new Intent(context, Upload.class));
                                     Helper.pesan(context, msg);
+                                    startActivity(new Intent(getApplicationContext(),Upload.class));
                                     sessionManager.createSession(logtxtEmail.getText().toString(),logtxtPassword.getText().toString());
+
                                     finish();
                                 } else {
                                     Helper.pesan(context, msg);

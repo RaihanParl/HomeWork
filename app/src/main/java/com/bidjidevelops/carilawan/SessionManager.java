@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.bidjidevelops.carilawan.gambar.Upload;
+
 import java.util.HashMap;
 
 public class SessionManager {
@@ -15,6 +17,7 @@ public class SessionManager {
 
     private static final String pref_name = "crudpref";
     private static final String is_login = "islogin";
+    private static final String is_upload = "isupload";
     public static final String kunci_email = "keyemail";
     public static final String kunci_password = "keypass";
 
@@ -44,9 +47,25 @@ public class SessionManager {
             context.startActivity(i);
         }
     }
+    public void checkupload(){
+        if (!this.is_upload()){
+            Intent i = new Intent(context, Upload.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+        }else {
+            Intent i = new Intent(context, MainActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+        }
+    }
 
     private boolean is_login() {
         return pref.getBoolean(is_login, false);
+    }
+    private boolean is_upload() {
+        return pref.getBoolean(is_upload, false);
     }
 
     public void logout(){
