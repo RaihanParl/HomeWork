@@ -1,4 +1,4 @@
-package com.bidjidevelops.carilawan.gambar;
+package com.bidjidevelops.hd.gambar;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,27 +20,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.bidjidevelops.carilawan.BaseApp;
-import com.bidjidevelops.carilawan.Helper;
-import com.bidjidevelops.carilawan.MainActivity;
-import com.bidjidevelops.carilawan.R;
-import com.bidjidevelops.carilawan.SessionManager;
-import com.bidjidevelops.carilawan.muser;
+import com.bidjidevelops.hd.Helper;
+import com.bidjidevelops.hd.MainActivity;
+import com.bidjidevelops.hd.R;
+import com.bidjidevelops.hd.SessionManager;
+import com.bidjidevelops.hd.muser;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -50,7 +41,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class Upload extends AppCompatActivity implements View.OnClickListener {
+public class Upload  extends AppCompatActivity implements View.OnClickListener {
     ArrayList<muser> data;
     String Spassword, Semail, Remail;
     SessionManager sessionManager;
@@ -78,7 +69,6 @@ public class Upload extends AppCompatActivity implements View.OnClickListener {
 
     //Uri to store the image uri
     private Uri filePath;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +76,6 @@ public class Upload extends AppCompatActivity implements View.OnClickListener {
         pref =  new Pref(this);
         sessionManager = new SessionManager(getApplicationContext());
         sessionManager.checkupload();
-        if (!pref.isFirstTimeLaunched()) {
-            launchHome();
-        }
 
         HashMap<String, String> user = sessionManager.getUserDetails();
         Semail = user.get(SessionManager.kunci_email);
@@ -127,7 +114,7 @@ public class Upload extends AppCompatActivity implements View.OnClickListener {
             //Creating a multi part request
             new MultipartUploadRequest(this, uploadId, Helper.BASE_URL + "Upload.php")
                     .addFileToUpload(path, "image") //Adding file
-       .addParameter("id", id) //Adding text parameter to the request
+                    .addParameter("id", id) //Adding text parameter to the request
                     .setNotificationConfig(new UploadNotificationConfig())
                     .setMaxRetries(2)
                     .startUpload(); //Starting the Upload
@@ -225,6 +212,7 @@ public class Upload extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         if (v == buttonChoose) {
             showFileChooser();
+            buttonUpload.setEnabled(true);
         }
         if (v == buttonUpload) {
             uploadMultipart();
@@ -299,5 +287,3 @@ public class Upload extends AppCompatActivity implements View.OnClickListener {
     }
 
 }
-
-

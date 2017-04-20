@@ -1,10 +1,11 @@
-package com.bidjidevelops.carilawan;
+package com.bidjidevelops.hd;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.bidjidevelops.carilawan.gambar.Upload;
+
+import com.bidjidevelops.hd.gambar.Upload;
 
 import java.util.HashMap;
 

@@ -9,9 +9,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.bidjidevelops.carilawan.RegisterActivity">
-<RelativeLayout
+    tools:context="com.bidjidevelops.hd.RegisterActivity">
+<LinearLayout
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
     <ImageView
         android:layout_width="100dp"
@@ -42,17 +43,20 @@
         android:layout_below="@id/textView"
         android:layout_marginTop="55dp"
         android:id="@+id/regtxtUsername"/>
+
     <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/regtxtemail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/regtxtUsername"
         android:hint="Email"
         app:met_baseColor="#2e8ece"
-        app:met_primaryColor="#fc1e94"
         app:met_errorColor="#f22a37"
         app:met_floatingLabel="highlight"
         app:met_iconLeft="@drawable/ic_email"
-        android:layout_below="@id/regtxtUsername"
-        android:id="@+id/regtxtEmail"/>
+        app:met_primaryColor="#fc1e94" />
 
     <com.rengwuxian.materialedittext.MaterialAutoCompleteTextView
         android:layout_width="match_parent"
@@ -62,7 +66,6 @@
         app:met_primaryColor="#fc1e94"
         app:met_errorColor="#f22a37"
         app:met_floatingLabel="highlight"
-        android:layout_below="@id/regtxtEmail"
         android:layout_marginTop="1dp"
         android:id="@+id/regtxtschool"/>
     <com.rengwuxian.materialedittext.MaterialEditText
@@ -106,5 +109,6 @@
         android:textSize="20sp"
         android:layout_marginTop="20dp"
         android:id="@+id/reglblLogin"/>
-</RelativeLayout>
+
+</LinearLayout>
 </ScrollView>

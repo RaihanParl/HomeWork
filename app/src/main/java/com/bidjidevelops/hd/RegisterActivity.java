@@ -1,16 +1,13 @@
-package com.bidjidevelops.carilawan;
+package com.bidjidevelops.hd;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -137,7 +134,7 @@ public class RegisterActivity  extends BaseApp {
 
     /*pengenalan objek*/
     private void setupView() {
-        regtxtEmail = (MaterialEditText) findViewById(R.id.regtxtEmail);
+        regtxtEmail = (MaterialEditText) findViewById(R.id.regtxtemail);
         regtxtPassword1 = (MaterialEditText) findViewById(R.id.regtxtPassword1);
         regtxtPassword2 = (MaterialEditText) findViewById(R.id.regtxtPassword2);
         regtxtUsername = (MaterialEditText) findViewById(R.id.regtxtUsername);

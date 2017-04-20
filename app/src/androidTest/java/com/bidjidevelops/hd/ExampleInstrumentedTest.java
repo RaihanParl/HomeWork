@@ -1,4 +1,4 @@
-package com.bidjidevelops.carilawan;
+package com.bidjidevelops.hd;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

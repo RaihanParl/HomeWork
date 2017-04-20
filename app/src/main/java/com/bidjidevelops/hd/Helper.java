@@ -1,4 +1,4 @@
-package com.bidjidevelops.carilawan;
+package com.bidjidevelops.hd;
 
 import android.content.Context;
 import android.widget.EditText;
@@ -14,10 +14,10 @@ import java.util.regex.Pattern;
 public class Helper extends BaseApp {
 
     /*alamat utama, silahkan disesuaikan dgn ip sobat dan nama folder sobat*/
-//    public static String BASE_URL = "http://192.168.123.51/login/";
-//    public static String BASE_URL = "http://169.254.125.7/login/";
-    public static String BASE_URL = "http://192.168.123.71/login/";
-    public static String BASE_IMGUS = "http://192.168.123.71/login/uploads/";
+//    public static String BASE_URL = "http://192.168.123.51/hd/";
+    public static String BASE_URL = "http://169.254.125.7/hd/";
+//    public static String BASE_URL = "http://192.168.50.11/hd/";
+    public static String BASE_IMGUS = BASE_URL+"uploads/";
 
     /*fungsi cek kesamaan text*/
     public static boolean isCompare(EditText et1, EditText et2){

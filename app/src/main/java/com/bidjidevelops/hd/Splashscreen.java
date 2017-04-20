@@ -1,6 +1,5 @@
-package com.bidjidevelops.carilawan;
+package com.bidjidevelops.hd;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +25,6 @@ public class Splashscreen extends AppCompatActivity {
                 sessionManager.checkLogin();
                 finish();
             }
-        },5000);
+        },1);
     }
 }
