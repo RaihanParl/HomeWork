@@ -251,7 +251,7 @@ public class Upload  extends AppCompatActivity implements View.OnClickListener {
                             String result = json.getString("result");
                             String pesan = json.getString("msg");
                             if (result.equalsIgnoreCase("true")) {
-                                JSONArray jsonArray = json.getJSONArray("berita");
+                                JSONArray jsonArray = json.getJSONArray("user");
                                 for (int a = 0; a < jsonArray.length(); a++) {
                                     JSONObject object = jsonArray.getJSONObject(a);
                                     muser d = new muser();

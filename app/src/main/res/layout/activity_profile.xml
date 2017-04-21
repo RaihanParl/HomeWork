@@ -41,8 +41,7 @@
             android:layout_height="wrap_content"
             android:text="Nama:"
             android:id="@+id/txtnama"
-            android:textSize="@dimen/font_size"
-            android:layout_alignBottom="@+id/imgednama" />
+            android:textSize="@dimen/font_size" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,12 +57,6 @@
             android:visibility="invisible"
             android:layout_toRightOf="@+id/txtnama"
             />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imgednama"
-            android:layout_toRightOf="@+id/txtnamanya"
-            android:src="@drawable/edit"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -75,7 +68,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HD@hd.com"
             android:id="@+id/txtEmailnya"
             android:layout_toRightOf="@+id/txtEmail"
             android:textSize="@dimen/font_size"
@@ -87,12 +79,6 @@
             android:visibility="invisible"
             android:layout_toRightOf="@+id/txtEmail"
             />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/txtEmailnya"
-            android:src="@drawable/edit"
-            android:id="@+id/imgedEmail" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -100,7 +86,6 @@
             android:text="Email:"
             android:id="@+id/txtEmail"
             android:textSize="@dimen/font_size"
-            android:layout_alignBottom="@+id/imgedEmail"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
     </RelativeLayout>
@@ -127,12 +112,6 @@
 
             android:layout_toRightOf="@+id/txtSekolah"
             />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/txtSekolahnya"
-            android:src="@drawable/edit"
-            android:id="@+id/imgedSekolah" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -140,47 +119,14 @@
             android:text="Sekolah:"
             android:id="@+id/txtSekolah"
             android:textSize="@dimen/font_size"
-            android:layout_alignBottom="@+id/imgedSekolah"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
+
+    <Button
+        android:id="@+id/btnEdit"
+        android:layout_width="match_parent"
+        android:onClick="Edit"
         android:layout_height="wrap_content"
-        android:id="@+id/layoutPassword"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SMK MQ"
-            android:id="@+id/txtPasswordnya"
-            android:inputType="textPassword"
-            android:layout_toRightOf="@+id/txtPassword"
-            android:textSize="@dimen/font_size"
-            />
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edpassword"
-            android:visibility="invisible"
-            android:layout_toRightOf="@+id/txtPassword"
-            />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/txtPasswordnya"
-            android:src="@drawable/edit"
-            android:id="@+id/imgedPassword" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Password:"
-            android:id="@+id/txtPassword"
-            android:textSize="@dimen/font_size"
-            android:layout_alignBottom="@+id/imgedPassword"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-    </RelativeLayout>
+        android:text="edit profile" />
 </LinearLayout>

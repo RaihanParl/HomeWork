@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 
+import com.bidjidevelops.hd.gambar.Upload;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONException;
@@ -86,7 +87,7 @@ public class LoginActivity extends BaseApp {
                                 String result = jsonObject.getString("result");
                                 String msg = jsonObject.getString("msg");
                                 if (result.equalsIgnoreCase("true")) {
-                                    startActivity(new Intent(context, AddSoal.class));
+                                    startActivity(new Intent(context, MainActivity.class));
                                     Helper.pesan(context, msg);
                                     sessionManager.createSession(logtxtEmail.getText().toString(),logtxtPassword.getText().toString());
                                     finish();

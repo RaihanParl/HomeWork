@@ -125,7 +125,7 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
         try {
             String uploadId = UUID.randomUUID().toString();
             //Creating a multi part request
-            new MultipartUploadRequest(this, uploadId, "http://169.254.125.7/Hd/prosesquest.php")
+            new MultipartUploadRequest(this, uploadId, Helper.BASE_URL+"prosesquest.php")
                     .addFileToUpload(path, "image") //Adding file
                     .addParameter("id_user", id) //Adding text parameter to the request
                     .addParameter("pertanyaan", editText.getText().toString()) //Adding text parameter to the request
@@ -134,7 +134,7 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
                     .setMaxRetries(2)
                     .startUpload(); //Starting the Upload
 
-//            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
         } catch (Exception exc) {
             Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
@@ -243,12 +243,12 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onResponse(String response) {
                 try {
-                    Toast.makeText(AddSoal.this, response, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AddSoal.this, response, Toast.LENGTH_SHORT).show();
                     JSONObject json = new JSONObject(response);
                     String result = json.getString("result");
                     String pesan = json.getString("msg");
                     if (result.equalsIgnoreCase("true")) {
-                        JSONArray jsonArray = json.getJSONArray("berita");
+                        JSONArray jsonArray = json.getJSONArray("user");
                         for (int a = 0; a < jsonArray.length(); a++) {
                             JSONObject object = jsonArray.getJSONObject(a);
                             muser d = new muser();
@@ -292,45 +292,4 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
 
     }
 
-    public void sendtanya() {
-        String url = "http://192.168.50.11/hd/prosesquest.php";
-        stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-
-                try {
-                    JSONObject jsonObject = null;
-                    jsonObject = new JSONObject(response);
-                    String result = jsonObject.getString("error");
-                    String msg = jsonObject.getString("message");
-
-                                /*jika result adalah benar, maka pindah ke activity login dan menampilkan pesan dari server,
-                                serta mematikan activity*/
-                    if (result.equalsIgnoreCase("false")) {
-                        Toast.makeText(AddSoal.this, "MASUKKK", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(AddSoal.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> paramuserlogin = new HashMap<>();
-                paramuserlogin.put("id_user", id);
-                paramuserlogin.put("pertanyaan", editText.getText().toString());
-                return paramuserlogin;
-            }
-        };
-
-    }
 }
