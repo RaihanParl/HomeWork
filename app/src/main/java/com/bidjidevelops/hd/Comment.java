@@ -198,14 +198,6 @@ public class Comment extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.btnjawab)
-    public void onClick() {
-
-
-        insertcomment();
-        getcomment();
-    }
-
     public void insertcomment() {
         String URL = Helper.BASE_URL + "upcomment.php";
         if (edJawabSoal.getText().toString().equals(null) || edJawabSoal.getText().toString().equals("") || edJawabSoal.getText().toString().equals(" ")) {
