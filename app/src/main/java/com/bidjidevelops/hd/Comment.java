@@ -88,7 +88,6 @@ public class Comment extends AppCompatActivity {
         sgbr_pertanyaan = getIntent().getStringExtra("gbr_pertanyaan");
         sid_user = getIntent().getStringExtra("id_user");
         swaktuSoal = getIntent().getStringExtra("waktuSoal");
-        Toast.makeText(this, id_pertanyaan, Toast.LENGTH_SHORT).show();
         aQuery = new AQuery(getApplicationContext());
         requestQueue = Volley.newRequestQueue(Comment.this);
         btnjawab.setOnClickListener(new View.OnClickListener() {
@@ -110,8 +109,6 @@ public class Comment extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-
-
                     GsonBuilder builder = new GsonBuilder();
                     Gson gson = builder.create();
                     gsonComment = gson.fromJson(response, GsonComment.class);
