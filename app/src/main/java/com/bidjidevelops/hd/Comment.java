@@ -45,7 +45,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class Comment extends AppCompatActivity {
-    String id_pertanyaan, susername, simage_user, ssekolah, swaktuSoal, sgbr_pertanyaan, spertanyaan, sidpertanyaan,sid_user;
+    String id_pertanyaan, susername, simage_user, ssekolah, swaktuSoal, sgbr_pertanyaan, spertanyaan, sidpertanyaan, sid_user;
     GsonComment gsonComment;
     @BindView(R.id.imguser)
     CircleImageView imguser;
@@ -95,11 +95,11 @@ public class Comment extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 insertcomment();
-                getcomment();
             }
         });
+        getcomment();
+
         settextandimage();
-      getcomment();
     }
 
     public void getcomment() {
@@ -117,9 +117,9 @@ public class Comment extends AppCompatActivity {
                     gsonComment = gson.fromJson(response, GsonComment.class);
                     AdapterComment adapter = new AdapterComment(Comment.this, gsonComment.DataComment);
                     rcComentSoal.setAdapter(adapter);
-                }catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                     }
+                }
 
             }
         }, new Response.ErrorListener() {
@@ -200,17 +200,26 @@ public class Comment extends AppCompatActivity {
 
     @OnClick(R.id.btnjawab)
     public void onClick() {
+
+
         insertcomment();
+        getcomment();
     }
-    public void insertcomment(){
+
+    public void insertcomment() {
         String URL = Helper.BASE_URL + "upcomment.php";
-        Map<String, String> paramsendcomment = new HashMap<>();
-        paramsendcomment.put("idpertanyaan", sidpertanyaan);
-        paramsendcomment.put("id_user", sid_user);
-        paramsendcomment.put("commentar", edJawabSoal.getText().toString());
+        if (edJawabSoal.getText().toString().equals(null) || edJawabSoal.getText().toString().equals("") || edJawabSoal.getText().toString().equals(" ")) {
+            edJawabSoal.setError("tidak boleh kosong");
+        } else {
+            Map<String, String> paramsendcomment = new HashMap<>();
+            paramsendcomment.put("idpertanyaan", sidpertanyaan);
+            paramsendcomment.put("id_user", sid_user);
+
+            paramsendcomment.put("commentar", edJawabSoal.getText().toString());
+
 
             /*menampilkan progressbar saat mengirim data*/
-        ProgressDialog pd = new ProgressDialog(getApplicationContext());
+            ProgressDialog pd = new ProgressDialog(getApplicationContext());
 //        pd.setIndeterminate(true);
 //        pd.setCancelable(false);
 //        pd.setInverseBackgroundForced(false);
@@ -219,36 +228,38 @@ public class Comment extends AppCompatActivity {
 //        pd.setMessage("Sedang menambah data");
 //        pd.show();
 
-        try {
+            try {
                 /*format ambil data*/
-            aQuery.progress(pd).ajax(URL, paramsendcomment, String.class, new AjaxCallback<String>() {
-                @Override
-                public void callback(String url, String object, AjaxStatus status) {
+                aQuery.progress(pd).ajax(URL, paramsendcomment, String.class, new AjaxCallback<String>() {
+                    @Override
+                    public void callback(String url, String object, AjaxStatus status) {
                         /*jika objek tidak kosong*/
-                    if (object != null) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(object);
-                            String result = jsonObject.getString("result");
-                            String msg = jsonObject.getString("msg");
+                        if (object != null) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(object);
+                                String result = jsonObject.getString("result");
+                                String msg = jsonObject.getString("msg");
 
                                 /*jika result adalah benar, maka pindah ke activity login dan menampilkan pesan dari server,
                                 serta mematikan activity*/
-                            if (result.equalsIgnoreCase("true")) {
+                                if (result.equalsIgnoreCase("true")) {
 //                                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 //                                Helper.pesan(getApplicationContext(), msg);
-                                finish();
-                            } else {
-                                Helper.pesan(getApplicationContext(), msg);
-                            }
+                                    edJawabSoal.setText("");
+                                    getcomment();
+                                } else {
+                                    Helper.pesan(getApplicationContext(), msg);
+                                }
 
-                        } catch (JSONException e) {
-                            Helper.pesan(getApplicationContext(), "Error convert data json");
+                            } catch (JSONException e) {
+                                Helper.pesan(getApplicationContext(), "Error convert data json");
+                            }
                         }
                     }
-                }
-            });
-        } catch (Exception e) {
-            Helper.pesan(getApplicationContext(), "Gagal mengambil data");
+                });
+            } catch (Exception e) {
+                Helper.pesan(getApplicationContext(), "Gagal mengambil data");
+            }
         }
     }
 }
