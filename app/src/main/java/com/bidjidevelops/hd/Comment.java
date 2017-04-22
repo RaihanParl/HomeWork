@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -109,15 +110,26 @@ public class Comment extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                    GsonBuilder builder = new GsonBuilder();
-                    Gson gson = builder.create();
-                    gsonComment = gson.fromJson(response, GsonComment.class);
-                    AdapterComment adapter = new AdapterComment(Comment.this, gsonComment.DataComment);
-                    rcComentSoal.setAdapter(adapter);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                    if (
+                            String.valueOf(new JSONObject(response).getString("msg")).equals("Ada data")
+                            ) {
+                        try {
+                            GsonBuilder builder = new GsonBuilder();
+                            Gson gson = builder.create();
+                            gsonComment = gson.fromJson(response, GsonComment.class);
+                            AdapterComment adapter = new AdapterComment(Comment.this, gsonComment.DataComment);
+                            rcComentSoal.setAdapter(adapter);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+//                        Toast.makeText(Comment.this, "Belum ada komentar", Toast.LENGTH_SHORT).show();
+                    }
 
+
+                } catch (JSONException e) {
+
+                }
             }
         }, new Response.ErrorListener() {
             @Override
