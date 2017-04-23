@@ -61,7 +61,7 @@ public class AdapterTL extends RecyclerView.Adapter<AdapterTL.ViewHolder> {
                 Intent a = new Intent(view.getContext(),Comment.class);
                 a.putExtra("id_pertanyaan",dataSoal.get(position).idpertanyaan);
                 a.putExtra("username",dataSoal.get(position).username);
-                a.putExtra("sekolah",dataSoal.get(position).idpertanyaan);
+                a.putExtra("sekolah",dataSoal.get(position).school);
                 a.putExtra("pertanyaan",dataSoal.get(position).pertanyaan);
                 a.putExtra("image_user",dataSoal.get(position).image);
                 a.putExtra("gbr_pertanyaan",dataSoal.get(position).gbr_pertanyaan);

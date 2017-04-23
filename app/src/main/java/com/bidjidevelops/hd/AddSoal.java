@@ -254,13 +254,13 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
                             muser d = new muser();
                             String email, username;
 
-                            d.setId_user(object.getString("id"));
+                            d.setId_user(object.getString("iduser"));
                             d.setEmail(object.getString("email"));
                             d.setPassword(object.getString("password"));
                             d.setSekolah(object.getString("School"));
                             d.setUsername(object.getString("Username"));
                             d.setUserimage(object.getString("Image"));
-                            id = object.getString("id");
+                            id = object.getString("iduser");
 
                             data.add(d);
                             //Toast.makeText(MainActivity.this, userImager, Toast.LENGTH_SHORT).show();
