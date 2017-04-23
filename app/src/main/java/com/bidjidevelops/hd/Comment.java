@@ -221,14 +221,6 @@ public class Comment extends AppCompatActivity {
 
             /*menampilkan progressbar saat mengirim data*/
             ProgressDialog pd = new ProgressDialog(getApplicationContext());
-//        pd.setIndeterminate(true);
-//        pd.setCancelable(false);
-//        pd.setInverseBackgroundForced(false);
-//        pd.setCanceledOnTouchOutside(false);
-//        pd.setTitle("Info");
-//        pd.setMessage("Sedang menambah data");
-//        pd.show();
-
             try {
                 /*format ambil data*/
                 aQuery.progress(pd).ajax(URL, paramsendcomment, String.class, new AjaxCallback<String>() {

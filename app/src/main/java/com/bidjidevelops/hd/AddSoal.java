@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -30,7 +29,6 @@ import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bidjidevelops.hd.gambar.Pref;
-import com.bumptech.glide.Glide;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
@@ -64,6 +62,8 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
     Button buttonChoose;
     @BindView(R.id.buttonUpload)
     Button buttonUpload;
+    @BindView(R.id.buttonUploadwithimg)
+    Button buttonUploadwithimg;
 
 //start otak atik add soal
     //Declaring views
@@ -125,11 +125,11 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
         try {
             String uploadId = UUID.randomUUID().toString();
             //Creating a multi part request
-            new MultipartUploadRequest(this, uploadId, Helper.BASE_URL+"prosesquest.php")
+            new MultipartUploadRequest(this, uploadId, Helper.BASE_URL + "prosesquest.php")
                     .addFileToUpload(path, "image") //Adding file
                     .addParameter("id_user", id) //Adding text parameter to the request
                     .addParameter("pertanyaan", editText.getText().toString()) //Adding text parameter to the request
-                     //Adding text parameter to the request
+                    //Adding text parameter to the request
                     .setNotificationConfig(new UploadNotificationConfig())
                     .setMaxRetries(2)
                     .startUpload(); //Starting the Upload
@@ -149,6 +149,8 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        buttonUpload.setVisibility(View.GONE);
+        buttonUploadwithimg.setVisibility(View.VISIBLE);
     }
 
     //handling the image chooser activity result
@@ -226,12 +228,15 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         if (v == buttonChoose) {
             showFileChooser();
-            buttonUpload.setEnabled(true);
+
         }
-        if (v == buttonUpload) {
+        if (v == buttonUploadwithimg) {
             uploadMultipart();
 //            sendtanya();
 //            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        }
+        if (v == buttonUpload){
+            insertSoalnoImage();
         }
 
     }
@@ -291,5 +296,50 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
         requestQueue.add(stringRequest);
 
     }
+    public void insertSoalnoImage() {
+        String URL = Helper.BASE_URL + "prosesquestnoimg.php";
+        if (editText.getText().toString().equals(null) || editText.getText().toString().equals("") || editText.getText().toString().equals(" ")) {
+            editText.setError("tidak boleh kosong");
+        } else {
+            Map<String, String> paramsendcomment = new HashMap<>();
+            paramsendcomment.put("pertanyaan",editText.getText().toString());
+            paramsendcomment.put("id_user", id);
 
+            paramsendcomment.put("image"," ");
+
+
+            /*menampilkan progressbar saat mengirim data*/
+            ProgressDialog pd = new ProgressDialog(getApplicationContext());
+            try {
+                /*format ambil data*/
+                aQuery.progress(pd).ajax(URL, paramsendcomment, String.class, new AjaxCallback<String>() {
+                    @Override
+                    public void callback(String url, String object, AjaxStatus status) {
+                        /*jika objek tidak kosong*/
+                        if (object != null) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(object);
+                                String result = jsonObject.getString("result");
+                                String msg = jsonObject.getString("msg");
+//                                Toast.makeText(AddSoal.this, result, Toast.LENGTH_SHORT).show();
+                                /*jika result adalah benar, maka pindah ke activity login dan menampilkan pesan dari server,
+                                serta mematikan activity*/
+                                if (result.equalsIgnoreCase("true")) {
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//                                Helper.pesan(getApplicationContext(), msg);
+                                } else {
+                                    Helper.pesan(getApplicationContext(), msg);
+                                }
+
+                            } catch (JSONException e) {
+                                Helper.pesan(getApplicationContext(), "Error convert data json");
+                            }
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                Helper.pesan(getApplicationContext(), "Gagal mengambil data");
+            }
+        }
+    }
 }
