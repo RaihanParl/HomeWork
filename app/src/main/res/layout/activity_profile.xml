@@ -129,4 +129,10 @@
         android:onClick="Edit"
         android:layout_height="wrap_content"
         android:text="edit profile" />
+    <Button
+        android:id="@+id/btnEditImage"
+        android:layout_width="match_parent"
+        android:onClick="Image"
+        android:layout_height="wrap_content"
+        android:text="edit Image" />
 </LinearLayout>

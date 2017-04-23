@@ -99,9 +99,4 @@
             android:layout_toRightOf="@+id/txtSekolahprof" />
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/btnedImg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Edit Image" />
 </LinearLayout>

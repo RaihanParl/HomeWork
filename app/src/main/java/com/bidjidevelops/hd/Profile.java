@@ -156,13 +156,6 @@ public class Profile extends AppCompatActivity {
         edEmail = (EditText) content.findViewById(R.id.edemailprof);
         edSekolah = (EditText) content.findViewById(R.id.edSekolahProf);
         imgProfPo = (CircleImageView) content.findViewById(R.id.imgprof);
-        btnImage = (Button)content.findViewById(R.id.btnedImg);
-        btnImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), Upload.class));
-            }
-        });
         Glide.with(getApplicationContext()).load(Helper.BASE_IMGUS + userImager).placeholder(R.drawable.student).into(imgProfPo);
         builder.setView(content)
                 .setTitle("Edit profile")
@@ -222,8 +215,10 @@ public class Profile extends AppCompatActivity {
 
     }
 
-    public void editprofile() {
-
+    public void Image(View v) {
+      Intent i = new Intent(getApplicationContext(),Upload.class);
+              i.putExtra("id_user",id);
+        startActivity(i);
 
     }
 

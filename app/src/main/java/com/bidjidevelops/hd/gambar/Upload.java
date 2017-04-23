@@ -1,7 +1,7 @@
 package com.bidjidevelops.hd.gambar;
 
+
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -20,34 +20,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
-import com.bidjidevelops.hd.Helper;
 import com.bidjidevelops.hd.MainActivity;
 import com.bidjidevelops.hd.R;
-import com.bidjidevelops.hd.SessionManager;
-import com.bidjidevelops.hd.muser;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
-public class Upload  extends AppCompatActivity implements View.OnClickListener {
-    ArrayList<muser> data;
-    String Spassword, Semail, Remail;
-    SessionManager sessionManager;
-    AQuery aQuery;
-    String id;
-    Pref pref;
+public class Upload extends AppCompatActivity implements View.OnClickListener {
 
 
     //Declaring views
@@ -66,25 +48,16 @@ public class Upload  extends AppCompatActivity implements View.OnClickListener {
 
     //Bitmap to get image from gallery
     private Bitmap bitmap;
-
+    String id;
     //Uri to store the image uri
     private Uri filePath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
-        pref =  new Pref(this);
-        sessionManager = new SessionManager(getApplicationContext());
-        sessionManager.checkupload();
-
-        HashMap<String, String> user = sessionManager.getUserDetails();
-        Semail = user.get(SessionManager.kunci_email);
-        Spassword = user.get(SessionManager.kunci_password);
+        id=getIntent().getStringExtra("id_user");
         //Requesting storage permission
         requestStoragePermission();
-        data = new ArrayList<>();
-        aQuery = new AQuery(this);
-        getiduser();
         //Initializing views
         buttonChoose = (Button) findViewById(R.id.buttonChoose);
         buttonUpload = (Button) findViewById(R.id.buttonUpload);
@@ -106,13 +79,12 @@ public class Upload  extends AppCompatActivity implements View.OnClickListener {
         //getting name for the image
         //getting the actual path of the image
         String path = getPath(filePath);
-        getiduser();
         //Uploading code
         try {
             String uploadId = UUID.randomUUID().toString();
 
             //Creating a multi part request
-            new MultipartUploadRequest(this, uploadId, Helper.BASE_URL + "Upload.php")
+            new MultipartUploadRequest(this, uploadId, "http://192.168.123.59/login/Upload.php")
                     .addFileToUpload(path, "image") //Adding file
                     .addParameter("id", id) //Adding text parameter to the request
                     .setNotificationConfig(new UploadNotificationConfig())
@@ -218,72 +190,11 @@ public class Upload  extends AppCompatActivity implements View.OnClickListener {
             uploadMultipart();
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
         }
-        if (v == txtlewat) {
-            getiduser();
-            Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
-        }
+
 
     }
 
-    public void getiduser() {
-
-        data.clear();
-        String url = Helper.BASE_URL + "login.php";
-        Map<String, String> parampa = new HashMap<>();
-        parampa.put("email", Semail);
-        parampa.put("password", Spassword);
-        ProgressDialog progressDialog = new ProgressDialog(getApplicationContext());
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.setInverseBackgroundForced(false);
-        progressDialog.setCanceledOnTouchOutside(true);
-        progressDialog.setTitle("Please wait...");
-        progressDialog.setMessage("Loading...");
-        try {
-            aQuery.progress(progressDialog).ajax(url, parampa, String.class, new AjaxCallback<String>() {
-                @Override
-                public void callback(String url, String hasil, AjaxStatus status) {
-                    if (hasil != null) {
-
-                        try {
-//                            Toast.makeText(Upload.this, hasil, Toast.LENGTH_SHORT).show();
-                            JSONObject json = new JSONObject(hasil);
-                            String result = json.getString("result");
-                            String pesan = json.getString("msg");
-                            if (result.equalsIgnoreCase("true")) {
-                                JSONArray jsonArray = json.getJSONArray("user");
-                                for (int a = 0; a < jsonArray.length(); a++) {
-                                    JSONObject object = jsonArray.getJSONObject(a);
-                                    muser d = new muser();
-                                    d.setId_user(object.getString("id"));
-                                    d.setEmail(object.getString("email"));
-                                    d.setPassword(object.getString("password"));
-                                    d.setSekolah(object.getString("School"));
-                                    d.setUsername(object.getString("Username"));
-                                    id = object.getString("id");
-                                }
-                            } else {
-                                Toast.makeText(getApplicationContext(), pesan, Toast.LENGTH_LONG).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "error parsing data", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }
-            });
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "error get data ", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-    }
 
 
-    private void launchHome() {
-        pref.setFirstLaunched(false);
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-//        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-        finish();
-    }
 
 }

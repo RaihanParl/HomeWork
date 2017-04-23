@@ -25,6 +25,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Profile" />
         <activity android:name=".AddSoal" />
+        <activity android:name=".gambar.Upload"></activity>
         <activity android:name=".Comment"></activity>
     </application>
 

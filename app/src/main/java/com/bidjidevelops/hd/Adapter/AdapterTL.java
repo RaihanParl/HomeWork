@@ -48,12 +48,11 @@ public class AdapterTL extends RecyclerView.Adapter<AdapterTL.ViewHolder> {
         Glide.with(context)
                 .load(Helper.BASE_IMGUS+dataSoal.get(position).image)
                 .crossFade()
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.student)
                 .into(holder.imguser);
         Glide.with(context)
                 .load(Helper.BASE_IMGUS+dataSoal.get(position).gbr_pertanyaan)
                 .crossFade()
-                .placeholder(R.mipmap.ic_launcher)
                 .into(holder.ivContent);
         holder.ivComment.setOnClickListener(new View.OnClickListener() {
             @Override
