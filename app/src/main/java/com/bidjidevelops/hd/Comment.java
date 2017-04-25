@@ -115,19 +115,22 @@ public class Comment extends AppCompatActivity {
                 insertcomment();
             }
         });
+        getdata();
+        getcomment();
+        settextandimage();
+        getdata();
+
         sr = (SwipeRefreshLayout) findViewById(R.id.refresh);
         sr.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 sr.setRefreshing(false);
                 getdata();
-                getcomment();
+                       getcomment();
+
             }
         });
-        getdata();
-        getcomment();
-        settextandimage();
-        getdata();
+
 
     }
 
@@ -271,6 +274,9 @@ public class Comment extends AppCompatActivity {
                             sid_user = object.getString("iduser");
                             userImager = object.getString("Image");
                             data.add(d);
+                            if(sid_user.equals(sid_usercom)){
+                                txthapus.setVisibility(View.VISIBLE);
+                            }
                             //Toast.makeText(MainActivity.this, userImager, Toast.LENGTH_SHORT).show();
                         }
                     } else {

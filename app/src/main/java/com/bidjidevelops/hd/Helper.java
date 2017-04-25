@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 
 public class Helper extends BaseApp {
     /*alamat utama, silahkan disesuaikan dgn ip sobat dan nama folder sobat*/
-    public static String BASE_URL = "http://192.168.173.161/hd/";
+//    public static String BASE_URL = "http://192.168.173.161/hd/";
 //    public static String BASE_URL = "http://169.254.125.7/hd/";
-//    public static String BASE_URL = "http://192.168.50.11/hd/";
+    public static String BASE_URL = "http://10.0.2.2/hd/";
     public static String BASE_IMGUS = BASE_URL+"uploads/";
 
     /*fungsi cek kesamaan text*/
