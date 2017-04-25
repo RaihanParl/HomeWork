@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity
         imguser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),Profile.class));
+                Intent a =new Intent(getApplicationContext(),Profile.class);
+                startActivity(a);
             }
         });
         txtUsername = (TextView) header.findViewById(R.id.txtusername);

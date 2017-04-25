@@ -26,7 +26,7 @@ public class RegisterActivity  extends BaseApp {
     private TextView reglblLogin;
     private Button regbtnRegister;
     private AutoCompleteTextView regtxtAsalsekolah;
-    String[] namaProvinsi = {"SMK Madinatul qur'an jongol", "MtsN 7 model jakarta", "Smk 22 jakarta", "Smk 24 jakarta", "mts Al-irsyad tengaran", "smpn 4 artis bokep"};
+    String[] namaProvinsi = {"SMK Madinatul quran jongol", "MtsN 7 model jakarta", "Smk 22 jakarta", "Smk 24 jakarta", "mts Al-irsyad tengaran", "smpn 4"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

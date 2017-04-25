@@ -3,11 +3,14 @@ package com.bidjidevelops.hd;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,10 +34,12 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +53,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Comment extends AppCompatActivity {
     String id_pertanyaan, susername, simage_user, ssekolah, swaktuSoal, sgbr_pertanyaan, spertanyaan, sidpertanyaan, sid_user;
     GsonComment gsonComment;
+    private LayoutInflater inflater;
     @BindView(R.id.imguser)
     CircleImageView imguser;
     @BindView(R.id.txtUser)
@@ -72,6 +78,10 @@ public class Comment extends AppCompatActivity {
     private RequestQueue requestQueue;
     private StringRequest stringRequest;
     public List<GsonComment.Commentar> DataComment;
+    SwipeRefreshLayout sr;
+    SessionManager sessionManager;
+    String Spassword, Semail, Remail, userImager;
+    ArrayList<muser> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,19 +97,33 @@ public class Comment extends AppCompatActivity {
         simage_user = getIntent().getStringExtra("image_user");
         sidpertanyaan = getIntent().getStringExtra("idpertanyaan");
         sgbr_pertanyaan = getIntent().getStringExtra("gbr_pertanyaan");
-        sid_user = getIntent().getStringExtra("id_user");
         swaktuSoal = getIntent().getStringExtra("waktuSoal");
+        sessionManager = new SessionManager(getApplicationContext());
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        Semail = user.get(SessionManager.kunci_email);
+        Spassword = user.get(SessionManager.kunci_password);
         aQuery = new AQuery(getApplicationContext());
         requestQueue = Volley.newRequestQueue(Comment.this);
+        data = new ArrayList<>();
         btnjawab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getdata();
                 insertcomment();
             }
         });
+        sr = (SwipeRefreshLayout)findViewById(R.id.refresh) ;
+        sr.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                sr.setRefreshing(false);
+                getcomment();
+            }
+        });
+        getdata();
         getcomment();
-
         settextandimage();
+
     }
 
     public void getcomment() {
@@ -161,50 +185,7 @@ public class Comment extends AppCompatActivity {
         Glide.with(getApplicationContext())
                 .load(Helper.BASE_IMGUS + sgbr_pertanyaan)
                 .crossFade()
-                .placeholder(R.mipmap.ic_launcher)
                 .into(imgContent);
-    }
-
-    public void addcomment() {
-        String url = Helper.BASE_URL + "upcomment.php";
-        stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                try {
-                    JSONObject jsonObject = null;
-                    jsonObject = new JSONObject(response);
-                    String result = jsonObject.getString("error");
-                    String msg = jsonObject.getString("message");
-                                /*jika result adalah benar, maka pindah ke activity login dan menampilkan pesan dari server,
-                                serta mematikan activity*/
-                    if (result.equalsIgnoreCase("false")) {
-                        Toast.makeText(Comment.this, "di tambah", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(Comment.this, msg, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> paramsendcomment = new HashMap<>();
-                paramsendcomment.put("idpertanyaan", sidpertanyaan);
-                paramsendcomment.put("id_user", sid_user);
-                paramsendcomment.put("commentar", edJawabSoal.getText().toString());
-
-                return paramsendcomment;
-            }
-        };
-
     }
 
     public void insertcomment() {
@@ -213,9 +194,9 @@ public class Comment extends AppCompatActivity {
             edJawabSoal.setError("tidak boleh kosong");
         } else {
             Map<String, String> paramsendcomment = new HashMap<>();
+            getdata();
             paramsendcomment.put("idpertanyaan", sidpertanyaan);
             paramsendcomment.put("id_user", sid_user);
-
             paramsendcomment.put("commentar", edJawabSoal.getText().toString());
 
 
@@ -254,5 +235,84 @@ public class Comment extends AppCompatActivity {
                 Helper.pesan(getApplicationContext(), "Gagal mengambil data");
             }
         }
+    }
+    public void getdata() {
+
+        data.clear();
+        String url = Helper.BASE_URL + "login.php";
+        stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+//                    Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+                    JSONObject json = new JSONObject(response);
+                    String result = json.getString("result");
+                    String pesan = json.getString("msg");
+                    if (result.equalsIgnoreCase("true")) {
+                        JSONArray jsonArray = json.getJSONArray("user");
+                        for (int a = 0; a < jsonArray.length(); a++) {
+                            JSONObject object = jsonArray.getJSONObject(a);
+                            muser d = new muser();
+                            String email, username;
+
+                            d.setId_user(object.getString("iduser"));
+                            d.setEmail(object.getString("email"));
+                            d.setPassword(object.getString("password"));
+                            d.setSekolah(object.getString("School"));
+                            d.setUsername(object.getString("Username"));
+                            d.setUserimage(object.getString("Image"));
+                            email = object.getString("email");
+//                                    school=object.getString("School");
+                            username = object.getString("Username");
+                            sid_user = object.getString("iduser");
+                            userImager = object.getString("Image");
+                            data.add(d);
+                            //Toast.makeText(MainActivity.this, userImager, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), pesan, Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "error parsing data", Toast.LENGTH_LONG).show();
+                }
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(Comment.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> paramuserlogin = new HashMap<>();
+                paramuserlogin.put("email", Semail);
+                paramuserlogin.put("password", Spassword);
+                return paramuserlogin;
+            }
+        };
+        requestQueue.add(stringRequest);
+
+    }
+    public void imgcontent(View v){
+        inflater = Comment.this.getLayoutInflater();
+        View content = inflater.inflate(R.layout.imagview, null);
+        ImageView imgcontent;
+        TextView txttest;
+        AlertDialog.Builder builder = new AlertDialog.Builder(Comment.this);
+        imgcontent = (ImageView) content.findViewById(R.id.imgcontent);
+//        Toast.makeText(this, sgbr_pertanyaan, Toast.LENGTH_SHORT).show();
+        Glide.with(getApplicationContext())
+                .load(Helper.BASE_IMGUS + sgbr_pertanyaan)
+                .crossFade()
+                .placeholder(R.mipmap.ic_launcher)
+                .into(imgcontent);
+        builder.setView(content);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+
     }
 }

@@ -108,6 +108,7 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
         //Setting clicklistener
         buttonChoose.setOnClickListener(this);
         buttonUpload.setOnClickListener(this);
+        buttonUploadwithimg.setOnClickListener(this);
 
     }
 
@@ -149,8 +150,7 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-        buttonUpload.setVisibility(View.GONE);
-        buttonUploadwithimg.setVisibility(View.VISIBLE);
+
     }
 
     //handling the image chooser activity result
@@ -228,7 +228,8 @@ public class AddSoal extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         if (v == buttonChoose) {
             showFileChooser();
-
+            buttonUpload.setVisibility(View.GONE);
+            buttonUploadwithimg.setVisibility(View.VISIBLE);
         }
         if (v == buttonUploadwithimg) {
             uploadMultipart();

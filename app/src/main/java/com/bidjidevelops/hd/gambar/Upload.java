@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bidjidevelops.hd.Helper;
 import com.bidjidevelops.hd.MainActivity;
 import com.bidjidevelops.hd.R;
 
@@ -84,7 +85,7 @@ public class Upload extends AppCompatActivity implements View.OnClickListener {
             String uploadId = UUID.randomUUID().toString();
 
             //Creating a multi part request
-            new MultipartUploadRequest(this, uploadId, "http://192.168.123.59/login/Upload.php")
+            new MultipartUploadRequest(this, uploadId, Helper.BASE_URL+"uploadnur.php")
                     .addFileToUpload(path, "image") //Adding file
                     .addParameter("id", id) //Adding text parameter to the request
                     .setNotificationConfig(new UploadNotificationConfig())
