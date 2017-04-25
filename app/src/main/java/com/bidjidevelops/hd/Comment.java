@@ -1,6 +1,8 @@
 package com.bidjidevelops.hd;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -128,6 +130,26 @@ public class Comment extends AppCompatActivity {
                 getdata();
                        getcomment();
 
+            }
+        });
+        txthapus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder a = new AlertDialog.Builder(Comment.this);
+                a.setTitle("Peringatan");
+                a.setMessage("Hapus soal???");
+                a.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+hapussoal();
+                    }
+                });
+                a.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
             }
         });
 
@@ -325,5 +347,57 @@ public class Comment extends AppCompatActivity {
 
 
     }
+public void hapussoal(){
+    data.clear();
+    String url = Helper.BASE_URL + "deletesoal.php";
+    stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+            try {
+//                    Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+                if (response != null) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String result = jsonObject.getString("result");
+                        String msg = jsonObject.getString("msg");
 
+                                /*jika result adalah benar, maka pindah ke activity login dan menampilkan pesan dari server,
+                                serta mematikan activity*/
+                        if (result.equalsIgnoreCase("true")) {
+                                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+//                                Helper.pesan(getApplicationContext(), msg)
+
+                        } else {
+                            Helper.pesan(getApplicationContext(), msg);
+                        }
+
+                    } catch (JSONException e) {
+                        Helper.pesan(getApplicationContext(), "Error convert data json");
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "salah masuk", Toast.LENGTH_LONG).show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "error parsing data", Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Toast.makeText(Comment.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }) {
+        @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+            Map<String, String> paramuserlogin = new HashMap<>();
+            paramuserlogin.put("idpertanyaan", sidpertanyaan);
+            return paramuserlogin;
+        }
+    };
+    requestQueue.add(stringRequest);
+
+}
 }
