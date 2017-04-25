@@ -54,6 +54,21 @@ public class AdapterTL extends RecyclerView.Adapter<AdapterTL.ViewHolder> {
                 .load(Helper.BASE_IMGUS+dataSoal.get(position).gbr_pertanyaan)
                 .crossFade()
                 .into(holder.ivContent);
+        holder.ivContent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent a = new Intent(view.getContext(),Comment.class);
+                a.putExtra("id_pertanyaan",dataSoal.get(position).idpertanyaan);
+                a.putExtra("username",dataSoal.get(position).username);
+                a.putExtra("sekolah",dataSoal.get(position).school);
+                a.putExtra("pertanyaan",dataSoal.get(position).pertanyaan);
+                a.putExtra("image_user",dataSoal.get(position).image);
+                a.putExtra("gbr_pertanyaan",dataSoal.get(position).gbr_pertanyaan);
+                a.putExtra("waktuSoal",dataSoal.get(position).waktuSoal);
+                a.putExtra("idpertanyaan",dataSoal.get(position).idpertanyaan);
+                view.getContext().startActivity(a);
+            }
+        });
         holder.ivComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

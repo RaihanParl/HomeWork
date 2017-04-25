@@ -48,6 +48,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import uk.co.senab.photoview.PhotoView;
 
 
 public class Comment extends AppCompatActivity {
@@ -298,10 +299,10 @@ public class Comment extends AppCompatActivity {
     public void imgcontent(View v){
         inflater = Comment.this.getLayoutInflater();
         View content = inflater.inflate(R.layout.imagview, null);
-        ImageView imgcontent;
+        PhotoView imgcontent;
         TextView txttest;
         AlertDialog.Builder builder = new AlertDialog.Builder(Comment.this);
-        imgcontent = (ImageView) content.findViewById(R.id.imgcontent);
+        imgcontent = (PhotoView) content.findViewById(R.id.imgcontent);
 //        Toast.makeText(this, sgbr_pertanyaan, Toast.LENGTH_SHORT).show();
         Glide.with(getApplicationContext())
                 .load(Helper.BASE_IMGUS + sgbr_pertanyaan)
