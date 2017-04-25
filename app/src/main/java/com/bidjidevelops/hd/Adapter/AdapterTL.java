@@ -65,7 +65,7 @@ public class AdapterTL extends RecyclerView.Adapter<AdapterTL.ViewHolder> {
                 a.putExtra("image_user",dataSoal.get(position).image);
                 a.putExtra("gbr_pertanyaan",dataSoal.get(position).gbr_pertanyaan);
                 a.putExtra("waktuSoal",dataSoal.get(position).waktuSoal);
-                a.putExtra("idpertanyaan",dataSoal.get(position).idpertanyaan);
+                a.putExtra("id_user",dataSoal.get(position).idUser);
                 view.getContext().startActivity(a);
             }
         });
@@ -80,6 +80,7 @@ public class AdapterTL extends RecyclerView.Adapter<AdapterTL.ViewHolder> {
                 a.putExtra("image_user",dataSoal.get(position).image);
                 a.putExtra("gbr_pertanyaan",dataSoal.get(position).gbr_pertanyaan);
                 a.putExtra("waktuSoal",dataSoal.get(position).waktuSoal);
+                a.putExtra("id_user",dataSoal.get(position).idUser);
                 a.putExtra("idpertanyaan",dataSoal.get(position).idpertanyaan);
                 view.getContext().startActivity(a);
             }

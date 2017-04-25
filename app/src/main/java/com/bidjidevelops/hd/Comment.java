@@ -1,7 +1,6 @@
 package com.bidjidevelops.hd;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -9,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -38,7 +36,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,14 +43,17 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import uk.co.senab.photoview.PhotoView;
 
 
 public class Comment extends AppCompatActivity {
-    String id_pertanyaan, susername, simage_user, ssekolah, swaktuSoal, sgbr_pertanyaan, spertanyaan, sidpertanyaan, sid_user;
+    String id_pertanyaan, susername, simage_user, ssekolah, swaktuSoal, sgbr_pertanyaan, spertanyaan, sidpertanyaan, sid_user, sid_usercom;
     GsonComment gsonComment;
+    @BindView(R.id.txthapus)
+    TextView txthapus;
+    @BindView(R.id.refresh)
+    SwipeRefreshLayout refresh;
     private LayoutInflater inflater;
     @BindView(R.id.imguser)
     CircleImageView imguser;
@@ -91,12 +91,14 @@ public class Comment extends AppCompatActivity {
         ButterKnife.bind(this);
         LinearLayoutManager linearmanager = new LinearLayoutManager(Comment.this);
         rcComentSoal.setLayoutManager(linearmanager);
+//        munculhapus();
         id_pertanyaan = getIntent().getStringExtra("id_pertanyaan");
         susername = getIntent().getStringExtra("username");
         ssekolah = getIntent().getStringExtra("sekolah");
         spertanyaan = getIntent().getStringExtra("pertanyaan");
         simage_user = getIntent().getStringExtra("image_user");
         sidpertanyaan = getIntent().getStringExtra("idpertanyaan");
+        sid_usercom = getIntent().getStringExtra("id_user");
         sgbr_pertanyaan = getIntent().getStringExtra("gbr_pertanyaan");
         swaktuSoal = getIntent().getStringExtra("waktuSoal");
         sessionManager = new SessionManager(getApplicationContext());
@@ -113,17 +115,19 @@ public class Comment extends AppCompatActivity {
                 insertcomment();
             }
         });
-        sr = (SwipeRefreshLayout)findViewById(R.id.refresh) ;
+        sr = (SwipeRefreshLayout) findViewById(R.id.refresh);
         sr.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 sr.setRefreshing(false);
+                getdata();
                 getcomment();
             }
         });
         getdata();
         getcomment();
         settextandimage();
+        getdata();
 
     }
 
@@ -198,9 +202,8 @@ public class Comment extends AppCompatActivity {
             getdata();
             paramsendcomment.put("idpertanyaan", sidpertanyaan);
             paramsendcomment.put("id_user", sid_user);
+            Toast.makeText(this, sid_user, Toast.LENGTH_SHORT).show();
             paramsendcomment.put("commentar", edJawabSoal.getText().toString());
-
-
             /*menampilkan progressbar saat mengirim data*/
             ProgressDialog pd = new ProgressDialog(getApplicationContext());
             try {
@@ -237,9 +240,9 @@ public class Comment extends AppCompatActivity {
             }
         }
     }
+
     public void getdata() {
 
-        data.clear();
         String url = Helper.BASE_URL + "login.php";
         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -296,7 +299,8 @@ public class Comment extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
     }
-    public void imgcontent(View v){
+
+    public void imgcontent(View v) {
         inflater = Comment.this.getLayoutInflater();
         View content = inflater.inflate(R.layout.imagview, null);
         PhotoView imgcontent;
@@ -314,6 +318,6 @@ public class Comment extends AppCompatActivity {
         dialog.show();
 
 
-
     }
+
 }
